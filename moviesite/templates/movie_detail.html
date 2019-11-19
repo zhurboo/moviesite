@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block base_content %}
+<style>
+        .wrapper {
+            width: 300px;
+            margin: 10px auto;
+            font: 14px/1.5 arial;
+        }
+        .tl-price-input{
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 7px 0;
+            background: #F4F4F7;
+            border-radius: 3px;
+            padding-left:5px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
+        }
+        .tl-price-input:focus{
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+        }
+        input:focus{
+                    border-color: #66afe9;
+                    border-radius: 4px;
+                    outline: 0;
+                    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+                    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+            }
+
+        /*tab*/
+        #star {
+            overflow: hidden;
+        }
+
+        #star li {
+            float: left;
+            width: 20px;
+            height: 20px;
+            margin: 2px;
+            display: inline;
+            color: #999;
+            font: bold 18px arial;
+            cursor: pointer
+        }
+
+        #star .act {
+            color: #c00
+        }
+
+        #star_word {
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #ccc;
+            margin: 10px;
+            text-align: center;
+            display: none
+        }
+</style>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 ">
+        <h1>{{movie.name}}</h1>
+        <div class="row">
+            <div class='col-md-5'>
+                <img src="/static/img/{{movie.IMDB_id}}_cover.png " width=253>
+            </div>
+            <div class='col-md-7'>
+                <br/>
+                <strong>IMDB编号：</strong>{{movie.IMDB_id}}<br/>
+                <strong>上映年份：</strong>{{movie.year}}<br/>
+                <strong>体裁：</strong>{% for genre in movie.genres.all %}{{genre}}/{%endfor%}<br/>
+                <strong>时长：</strong>{{movie.duration}}<br/>
+                <strong>编剧：</strong>{% for writer in movie.writers.all %}{{writer}}/{%endfor%}<br/>
+                <strong>导演：</strong>{% for director in movie.directors.all %}{{director}}/{%endfor%}<br/>
+                <strong>演员：</strong>{% for actor in movie.actors.all %}{{actor}}/{%endfor%}<br/>
+                <strong>语言：</strong>{% for language in movie.language.all %}{{language}}/{%endfor%}<br/>
+                <strong>评分：</strong>{{movie.rating}}<br/>
+                <ul id="star">
+                    <li>★</li>
+                    <li>★</li>
+                    <li>★</li>
+                    <li>★</li>
+                    <li>★</li>
+                    <li>★</li>
+                    <li>★</li>
+                    <li>★</li>
+                    <li>★</li>
+                    <li>★</li>
+                </ul>
+            </div>
+        </div>
+   <br>
+    <strong>剧情介绍：</strong> {{movie.summary}}<br/><br/>
+
+    {% if user.is_authenticated %}
+        {% if rating == None%}
+        <strong>您的评分：</strong>
+        <form method="post">
+            {% csrf_token %}
+            <input style="width: 90px" id="tl-price-input" type="number" class="rating" min=0 max=5 step=0.5 data-size="lg" name="rating">
+            <button type="submit" class="btn btn-info btn-sm f-16">提交</button>
+        </form>
+        {%else%}
+        您已评分：{{rating.rating}}/5
+        {% endif %}
+    {% else %}
+        <div class="card-body text-center m-2 m-md-3 f-16" id="no-editor">
+            <div>您尚未登录，请
+                <a class="text-danger" href="{% url 'account_login' %}?next={{ request.path }}">登录</a> 或
+                <a class="text-danger" href="{% url 'account_signup' %}?next={{ request.path }}">注册</a> 后评分
+            </div>
+        </div>
+    {% endif %}
+    <br><br><br>
+    {% for comment in comments%}
+        <h2 >用户{{comment.user}}：{{comment.content}}</h2>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="card-body p-2 p-md-3">
+            <textarea class="form-control rounded-0" id="comment-form" name="content" placeholder="编辑您的评论内容" rows="5" required></textarea>
+        </div>
+        <div class="card-footer border-0 bg-white py-0 px-2 px-md-3" id="editor-footer">
+            <button type="submit" class="btn btn-info btn-sm float-right f-16" >提交评论</button>
+        </div>
+    </form>
+    {% else %}
+    <div class="card-body text-center m-2 m-md-3 f-16" id="no-editor">
+        <div>您尚未登录，请
+            <a class="text-danger" href="{% url 'account_login' %}?next={{ request.path }}">登录</a> 或
+            <a class="text-danger" href="{% url 'account_signup' %}?next={{ request.path }}">注册</a> 后评论
+        </div>
+    </div>
+    {% endif %}</div>
+</div>
+<script>
+  var star = document.getElementById("star");
+    var star_li = star.getElementsByTagName("li");
+
+    var rate = {{movie.rating}} * 10
+    for (i = 0; i <= rate; i++) {
+        star_li[i].className = "act";
+    };
+    for(i = rate + 1; i < 10; i++){
+        star_li[i].className = "";
+    }
+    // console.log({{movie.rating}});
+</script>
+
+{% endblock %}

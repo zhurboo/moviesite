@@ -1,0 +1,105 @@
+{% load static %}
+{% load staticfiles %}
+<html lang="en">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<head>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{% static 'base.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md bg-white fixed-top blog-navbar py-md-0">
+        <nav class="my-2 mr-md-auto mr-md-3 x-large"><a style="font-size:24px">云计算 cloud4</a></nav>
+        <nav class="my-2 my-md-0 mr-md-1">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item mr-2 " >
+                    <a class="nav-link py-md-3 " href="{% url 'movie:recommendation' %}">推荐</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:hot' %}">热门</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:new' %}">最新</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:action' %}">动作</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:adventure' %}">冒险</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:science' %}">科幻</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:thriller' %}">恐怖</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:romance' %}">爱情</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:amimation' %}">动物</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:children' %}">儿童</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:comedy' %}">喜剧</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="{% url 'movie:documentary' %}">记录</a>
+                </li>
+           
+
+                <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform" action="/search">
+                    <div class="input-group">
+                        <input type="search" name="content" class="form-control rounded-0" placeholder="搜索电影" autocomplete="off" required=True>
+                        <div class="input-group-btn">
+                            <button class="btn btn-info " style=" height: 38" type="submit" > <i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+
+                {% if user.is_authenticated %}
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3" href="{% url 'account_login' %}">资料</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-md-3" href="{% url 'account_logout' %}">退出</a>
+                </li>
+                {% else %}
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3" href="{% url 'account_login' %}">登录</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-md-3" href="{% url 'account_signup' %}">注册</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </nav>
+    {% if messages %}
+    <div class="container">
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-secondary{% endif %} alert-dismissible rounded-0 fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    </div>
+    {% endif %}
+    <br>
+    <main>{% block base_content %}{% endblock %}</main>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<body>
+</html>

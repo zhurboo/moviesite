@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block base_content %}
+<div class="container">
+<div class="row">
+    {% for movie in movies.object_list %}
+    <div class="col-md-3" >
+        <a href="/movie/{{movie.id}}" >
+            <div class="card mb-4 shadow text-center" >
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{movie.name}}</h4>
+                     {{movie.rating}}
+                </div>
+                <img class="card-img-top" src="/static/img/{{movie.IMDB_id}}_cover.png ">
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+ 
+
+<div class="row">
+<div class="col-md-3 col-md-offset-4 ">
+    <ul class="pagination">
+        {% if movies.has_previous %}
+            <a class="text-success" href="?page={{ movies.previous_page_number }}&content={{content}}">{{content}}上一页{{xyz}}</a>
+        {% else %}
+            <span class="text-secondary" title="当前页已经是首页">上一页</span>
+        {% endif %}
+             <span class="mx-2">第&nbsp;{{ movies.number }}&nbsp;/&nbsp;{{ paginator.num_pages }}&nbsp;页</span>
+        {% if movies.has_next %}
+            <a class="text-success" href="?page={{ movies.next_page_number }}&content={{lcontent}}">下一页</a>
+        {% else %}
+            <span class="text-secondary" title="当前页已经是末页">下一页</span>
+        {% endif %}
+    </ul>
+</div></div>
+<br>
+
+{% endblock %}
