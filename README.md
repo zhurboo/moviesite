@@ -29,11 +29,11 @@
 
 # 配置与使用
 
-1. [环境配置]()
+1. [环境配置]([https://github.com/zhurboo/moviesite/blob/master/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.md](https://github.com/zhurboo/moviesite/blob/master/环境配置.md))
 
-2. [详细使用]()
-3. [简单使用]()
+2. [详细使用]([https://github.com/zhurboo/moviesite/blob/master/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.md](https://github.com/zhurboo/moviesite/blob/master/详细使用.md))
+3. [简单使用(需要在作者的环境下)]([https://github.com/zhurboo/moviesite/blob/master/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.md](https://github.com/zhurboo/moviesite/blob/master/简单使用.md))
 
 
 
-ps. 目测还存在一切bug，没空改了
+ps. 目测还存在一切bug，没时间修改了
