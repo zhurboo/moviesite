@@ -20,23 +20,17 @@
   - 兴趣推荐
   - 在线推荐
 
+## 系统架构
+我们的数据基于 MovieLens 20M，将该数据集的 rating.csv 文件存入 HDFS 集群，并从 IMDB 爬取数据集中的电影基本信息与电影图片，电影基本信息经过处理后存入 MongoDB 集群，电影图片存入 Hbaes 集
+群。
+计算模块运行于 YARN 集群上，其中 Spark 负责离线推荐计算，Spark Streaming 负责在线推荐计算，离线推荐计算的任务每天执行一次，在线推荐计算的任务来源于 Kafka 消息队列，时间窗口和间隔均为一分钟，计算所得的推荐结果存入 MongoDB 集群。使用 Nginx1 处理负载均衡和静态文件(电影图片、css、js)，使用 uWSGI 启动 Django 服务，并将动静请求分离，Redis 作为 Django 的缓存。Zookeeper 用来保证 Kafka、YARN、HDFS 和 Hbase 的高可用性。
+![](https://i.postimg.cc/MG1W4XDQ/xitong.png)
    
 ## 体系框架
 
 ![](https://i.postimg.cc/BnXbhqkT/tixi.png)
 
-## 系统架构
-本系统的系统架构如图2 所示，我们的数据基于MovieLens 20M6 数据集，并将
-该数据集的rating.csv 存入HDFS 集群，并从IMDB7 爬取数据集中的电影基本信息
-与电影图片，电影基本信息经过处理后存入MongoDB 集群，电影图片存入Hbaes8 集
-群。计算模块运行于YARN 集群上，其中Spark 负责离线推荐计算，Spark Streaming
-负责在线推荐计算，离线推荐计算的任务每天执行一次，在线推荐计算的任务来源于
-Kafka9 消息队列，时间窗口和间隔均为一分钟，计算所得的推荐结果存入MongoDB
-集群。使用Nginx10 处理负载均衡和静态文件(电影图片、css、js)，使用uWSGI11 启
-动Django 服务，并将动静请求分离，Redis12 作为Django 的缓存。Zookeeper13 用来
-保证Kafka、YARN、HDFS 和Hbase 的高可用性。接下来，我们将分别介绍本系统中
-的各个组件。
-![](https://i.postimg.cc/MG1W4XDQ/xitong.png)
+
 
 ## 配置与使用
 
